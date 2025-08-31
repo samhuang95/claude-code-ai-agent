@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(npm install)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run build:*)",
+      "Bash(node:*)",
+      "Bash(del test_update_handler.js)",
+      "Bash(start test-modules.html)",
+      "Bash(start popup.html)",
+      "Bash(start dynamic-validation-test.html)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\c\\Users\\user\\Desktop"
+    ]
+  }
+}
