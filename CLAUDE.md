@@ -27,23 +27,69 @@
 
 ### 語音通知實作規則
 
-1. **任務開始時**：使用 `say "正在{任務描述}"`
-2. **任務完成時**：使用 `say "已完成{任務摘要}"`
-3. **遇到問題時**：使用 `say "遇到問題：{簡短描述}"`
-4. **需要確認時**：通過 Notification Hook 自動觸發隨機語音提示
+1. **任務完成時**：使用 `bash task_complete_notify.sh "完成訊息"`
+2. **遇到問題時**：使用 `bash task_complete_notify.sh "問題描述"`
+3. **需要決策確認時**：通過 Notification Hook 自動觸發 `decision_notify.sh`（隨機播放「Sam，請確認一下」等訊息）
+4. **一般語音通知**：使用 `bash speak_message.sh "任意訊息"`
+
+### 跨平台語音通知函數
+
+建立 `speak_message.sh` 腳本來處理跨平台語音：
+
+```bash
+#!/bin/bash
+message="$1"
+
+# Windows (PowerShell)
+if command -v powershell &> /dev/null; then
+    powershell -Command "Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('$message')"
+# macOS
+elif command -v say &> /dev/null; then
+    say "$message"
+# Linux (需要安裝 espeak)
+elif command -v espeak &> /dev/null; then
+    espeak "$message"
+# 如果都沒有，使用系統提示音
+else
+    echo -e "\a"
+    echo "$message"
+fi
+```
 
 ### 語音通知範例
 
 ```bash
-# 開始任務
-say "正在分析專案架構"
+# 任務完成通知
+bash task_complete_notify.sh "代碼分析完成，發現3個需要優化的地方"
 
-# 完成任務
-say "代碼分析完成，發現3個需要優化的地方"
+# 遇到問題通知
+bash task_complete_notify.sh "編譯失敗，請檢查語法錯誤"
 
-# 遇到問題
-say "編譯失敗，請檢查語法錯誤"
+# 一般語音通知
+bash speak_message.sh "正在分析專案架構"
+
+# 決策確認（由 Notification Hook 自動觸發）
+# 會隨機播放：「Sam，請確認一下」、「Sam，需要你決定」等
 ```
+
+### 通知類型說明
+
+1. **decision_notify.sh** - 決策確認通知
+   - 用於需要用戶決策的情況
+   - 隨機播放確認訊息
+   - 通知標題：「Claude Code - 需要確認」
+   - 圖示：問號 ❓
+
+2. **task_complete_notify.sh** - 任務完成通知
+   - 用於任務完成或問題回報
+   - 播放傳入的具體訊息
+   - 通知標題：「Claude Code - 任務完成」
+   - 圖示：資訊 ℹ️
+
+3. **speak_message.sh** - 一般語音通知
+   - 用於過程中的狀態更新
+   - 播放傳入的任意訊息
+   - 通知標題：「Claude Code 語音通知」
 
 ### 注意事項
 

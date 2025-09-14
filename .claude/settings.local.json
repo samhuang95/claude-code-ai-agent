@@ -16,9 +16,7 @@
     ],
     "deny": [],
     "ask": [],
-    "additionalDirectories": [
-      "C:\\c\\Users\\user\\Desktop"
-    ]
+    "additionalDirectories": ["C:\\c\\Users\\user\\Desktop"]
   },
   "hooks": {
     "Notification": [
@@ -26,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash notification.sh"
+            "command": "bash decision_notify.sh"
           }
         ]
       }
