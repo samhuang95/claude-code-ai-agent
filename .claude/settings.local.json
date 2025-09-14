@@ -10,12 +10,26 @@
       "Bash(del test_update_handler.js)",
       "Bash(start test-modules.html)",
       "Bash(start popup.html)",
-      "Bash(start dynamic-validation-test.html)"
+      "Bash(start dynamic-validation-test.html)",
+      "Bash(bash:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": [],
     "additionalDirectories": [
       "C:\\c\\Users\\user\\Desktop"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash notification.sh"
+          }
+        ]
+      }
     ]
   }
 }
