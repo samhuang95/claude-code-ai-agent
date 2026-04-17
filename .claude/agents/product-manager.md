@@ -1,5 +1,5 @@
 ---
-name: system-planner
+name: product-manager
 description: 專案分析師和文件架構師。專門分析現有程式碼庫並建立專案核心指導文件(.ai-rules/)。當需要專案初始化、架構分析、建立專案規格或分析技術堆疊時必須使用。
 model: sonnet
 color: red
